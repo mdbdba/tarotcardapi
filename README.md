@@ -1,3 +1,8 @@
+
+This fork is a quick and easy edit to this terrific repo.  It just adds an inverted option for the randomization and then 
+presents the results as html.
+---------------------------------
+
 Free Tarot Card API with Images
 Welcome to the ultimate Tarot Card API, available for free!
 

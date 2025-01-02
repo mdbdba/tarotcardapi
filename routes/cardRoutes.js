@@ -477,10 +477,74 @@ router.get("/", (req, res) => {
   res.json(tarotCards);
 });
 
+
+// Endpoint: Draw one random card with possible inversion
 router.get("/onecard", (req, res) => {
   const randomIndex = Math.floor(Math.random() * tarotCards.length);
   const randomCard = tarotCards[randomIndex];
-  res.json(randomCard);
+
+  // Determine if the card is inverted (50% chance)
+  const isInverted = Math.random() < 0.5;
+
+  // Return card with inversion status
+  // res.json({
+  //  card: randomCard,
+  //  inverted: isInverted,
+  //});
+
+  // Generate the HTML response
+  const htmlResponse = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Your Tarot Card</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          text-align: center;
+          margin: 2rem;
+        }
+        .card {
+          display: inline-block;
+          text-align: center;
+          border: 1px solid #ccc;
+          padding: 20px;
+          border-radius: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card img {
+          max-width: 300px;
+          height: auto;
+          transform: ${isInverted ? "rotate(180deg)" : "none"};
+        }
+        .card h1 {
+          font-size: 2rem;
+          margin: 10px 0;
+        }
+        .card p {
+          font-size: 1.2rem;
+          color: #555;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="card">
+        <img src="${randomCard.image}" 
+             alt="${randomCard.name} ${isInverted ? '(Inverted)' : ""} Tarot Card">
+        <h1>${randomCard.name} 
+            ${isInverted ? '(Inverted)' : ""} </h1>
+        <p>${randomCard.description}</p>
+      </div>
+    </body>
+    </html>
+  `;
+
+  // Send the HTML response
+  res.send(htmlResponse);
+
 });
+
 
 module.exports = router;
